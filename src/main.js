@@ -38,10 +38,12 @@ const rowsConfig = [
   { direction: 'left', duration: 36 }
 ]
 
+// 🚀 AÑADE ESTA LÍNEA CLAVE
+const base = import.meta.env.BASE_URL || '/'
+
 // Optionally load images from `public/images/row1`, `row2`, `row3`.
 // The loader will try common filenames like photo1.jpg, photo2.jpg, ... up to a limit.
-const rowsFolders = ['/images/row1', '/images/row2', '/images/row3']
-
+const rowsFolders = [`${base}images/row1`, `${base}images/row2`, `${base}images/row3`]
 async function probeFolder(folder, max = 12) {
   const exts = ['jpg', 'png', 'webp']
   const candidates = []
