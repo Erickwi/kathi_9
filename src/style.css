@@ -1,0 +1,294 @@
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+#app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.vanilla:hover {
+  filter: drop-shadow(0 0 2em #f7df1eaa);
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+/* ---- Álbum y carta bloqueada ---- */
+.album {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-top: 1.5rem;
+}
+.photo {
+  background: linear-gradient(180deg, #333, #222);
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transform-origin: center;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+}
+.photo img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  display: block;
+}
+.viewer {
+  position: fixed;
+  left: 0; right: 0; top: 0; bottom: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(0,0,0,0.6);
+  z-index: 1200;
+}
+.viewer.hidden { display:none; }
+.viewer-inner {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #111;
+  padding: 8px;
+}
+.viewer-inner img { max-width: 100%; max-height: 80vh; display:block; }
+#close-view { position:absolute; right:6px; top:6px; z-index:2 }
+
+.card-section { margin-top: 2.5rem; display:flex; justify-content:center }
+.gift-card {
+  width: 320px; height:200px; perspective: 1200px; position:relative;
+}
+.gift-card .card-front, .gift-card .card-back {
+  width:100%; height:100%; border-radius:12px; position:absolute; left:0; top:0; backface-visibility: hidden; display:flex; align-items:center; justify-content:center; font-size:1.1rem; padding:1rem;
+}
+.gift-card .card-front { background: linear-gradient(135deg,#6b5b95,#b8a9c9); color: #fff }
+.gift-card .card-back { background: linear-gradient(135deg,#ffb75e,#ed8f03); color:#111; transform: rotateY(180deg) }
+.gift-card.locked { filter: grayscale(0.1); }
+.gift-card .lock-overlay { position:absolute; inset:0; display:flex; flex-direction:column; gap:8px; align-items:center; justify-content:center }
+.gift-card .countdown { color:#fff; background: rgba(0,0,0,0.25); padding:6px 10px; border-radius:8px }
+.gift-card button[disabled] { opacity:0.5; cursor:not-allowed }
+
+/* Flip helper when opened */
+.gift-card.opened .card-front { transform: rotateY(180deg) }
+.gift-card.opened .card-back { transform: rotateY(360deg) }
+
+/* Small responsive tweaks */
+@media (max-width:480px) {
+  .photo img { height: 120px }
+  .gift-card { width: 92%; height: 180px }
+}
+
+/* ---- Estilos para libro (flip de páginas) ---- */
+.book-wrap { display:flex; flex-direction:column; align-items:center; gap:1rem; margin-top:1.25rem }
+.book { width: 680px; max-width: 94vw; height:420px; perspective: 1800px; position: relative; }
+
+/* Two-page spread */
+.left-page, .right-page { position: absolute; top:0; bottom:0; width:50%; overflow:hidden; transform-style: preserve-3d; backface-visibility: hidden; border-radius:12px }
+.left-page { left:0; padding-left:10px; display:flex; align-items:center; justify-content:center; box-shadow: inset -6px 0 18px rgba(0,0,0,0.35); background:#111 }
+.right-page { right:0; left:auto; padding-right:10px; display:flex; align-items:center; justify-content:center; box-shadow: inset 6px 0 18px rgba(0,0,0,0.35); background:#111 }
+.left-page img, .right-page img { width:100%; height:100%; object-fit:cover; display:block }
+
+/* The element that will animate as the turning page.
+  It uses two sides (front/back) so the backside shows the next/prev image during the flip. */
+.flip-page { position:absolute; top:0; bottom:0; left:50%; width:50%; height:100%; transform-origin: right center; z-index:50; pointer-events:none; box-shadow: 0 12px 30px rgba(0,0,0,0.6); background:#111; overflow:hidden; border-radius:0 12px 12px 0; transform-style:preserve-3d }
+.flip-page.left-origin { left:0; width:50%; transform-origin: left center; border-radius:12px 0 0 12px }
+.flip-page .side { position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility: hidden }
+.flip-page .side img { width:100%; height:100%; object-fit:cover; display:block }
+.flip-page .side.back { transform: rotateY(180deg) }
+.flip-page .curl { position:absolute; inset:0; pointer-events:none; mix-blend-mode:multiply; opacity:0; background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(0,0,0,0.6)) }
+
+.book-controls { display:flex; gap:12px; align-items:center; justify-content:center; margin-top:8px }
+.book-controls button { padding:0.5rem 0.9rem }
+
+/* shadow overlay on the flipping page to simulate curl */
+.flip-shadow { position:absolute; inset:0; background:linear-gradient(90deg, rgba(0,0,0,0.0), rgba(0,0,0,0.45)); opacity:0; pointer-events:none }
+.flip-shadow.left { background: linear-gradient(270deg, rgba(0,0,0,0.0), rgba(0,0,0,0.45)); }
+
+@media (max-width:720px) {
+  .book { height: 320px }
+}
+
+/* ---- Book styles for realistic page turns ---- */
+.book { width: 820px; max-width: 94vw; height:520px; margin: 0 auto; position: relative; perspective: 2600px }
+.spine { position:absolute; left:50%; top:0; bottom:0; width:4px; background: linear-gradient(180deg,#222,#000); transform:translateX(-50%); z-index:60 }
+.book-surface { position:relative; width:100%; height:100%; background: linear-gradient(180deg,#f8f8f8,#eee); border-radius:12px; box-shadow: 0 18px 48px rgba(0,0,0,0.5); overflow: hidden }
+
+/* each page is a leaf that rotates around the book spine (left origin) */
+.page { position:absolute; inset:0; width:100%; height:100%; transform-origin: 50% 50%; pointer-events:auto }
+.leaf { position:absolute; left:50%; top:0; width:50%; height:100%; transform-origin: left center; transform-style: preserve-3d; backface-visibility: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.25); overflow:hidden }
+.leaf.left { left:0; transform-origin: right center }
+.leaf .face { position:absolute; inset:0; backface-visibility: hidden; -webkit-backface-visibility: hidden }
+.leaf .face img { width:100%; height:100%; object-fit:cover; display:block }
+.leaf .back { transform: rotateY(180deg) }
+
+/* stacking order: first page at top */
+.page[data-index="0"] { z-index:70 }
+.page[data-index="1"] { z-index:69 }
+.page[data-index="2"] { z-index:68 }
+.page[data-index="3"] { z-index:67 }
+
+/* flipped states */
+.page.flipped .leaf.right { transform: rotateY(-180deg); transition: transform 1.2s cubic-bezier(.2,.9,.18,1) }
+.page.flipped .leaf.left { transform: rotateY(0deg); }
+.page .leaf.right { transition: transform 1.2s cubic-bezier(.2,.9,.18,1) }
+.page .leaf.left { transition: transform 1.2s cubic-bezier(.2,.9,.18,1) }
+
+/* subtle curl and shadow overlays to sell the effect */
+.leaf .curl { position:absolute; inset:0; pointer-events:none; background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(0,0,0,0.6)); opacity:0 }
+.page.flipped .leaf .curl { opacity:0.45; transition: opacity 0.6s }
+
+.book-controls { display:flex; gap:12px; align-items:center; justify-content:center; margin-top:12px }
+
+@media (max-width:720px) {
+  .book { height: 360px }
+}
+
+/* ---- Carrusel infinito de 3 filas ---- */
+.carousel { width:100%; max-width:1200px; margin: 2rem auto; display:flex; flex-direction:column; gap:18px; }
+.carousel-row { overflow: hidden; position: relative; border-radius:10px; background: linear-gradient(180deg,#111,#0f0f0f); padding:8px 0 }
+.carousel-track { display:flex; gap:12px; align-items:center; will-change:transform }
+.carousel-item { flex: 0 0 auto; width: 260px; height:160px; border-radius:8px; overflow:hidden; box-shadow: 0 8px 20px rgba(0,0,0,0.5); background:#222 }
+.carousel-item img { width:100%; height:100%; object-fit:cover; display:block }
+
+/* Keyframes: track moves left by 50% (one set length) — works because we duplicate content */
+@keyframes scroll-left {
+  0% { transform: translateX(0) }
+  100% { transform: translateX(-50%) }
+}
+@keyframes scroll-right {
+  0% { transform: translateX(0) }
+  100% { transform: translateX(50%) }
+}
+
+/* Row modifiers: different speeds and directions */
+.carousel-row[data-direction="left"] .carousel-track { animation: scroll-left linear infinite }
+.carousel-row[data-direction="right"] .carousel-track { animation: scroll-right linear infinite }
+
+.carousel-controls { display:flex; gap:8px; justify-content:center; margin-top:8px }
+.carousel-controls button { padding:6px 10px }
+
+/* Pause animation when hovering */
+.carousel-row:hover .carousel-track { animation-play-state: paused }
+
+@media (max-width:780px) {
+  .carousel-item { width: 44vw; height: 120px }
+}
+
+/* ---- Side envelope (sobre) next to carousel ---- */
+.carousel-area { display:flex; gap:20px; align-items:flex-start; justify-content:center; width:100%; }
+.carousel { flex:1 }
+.side-envelope { width:260px; display:flex; align-items:center; justify-content:center }
+.envelope { width:220px; height:140px; position:relative; background:#f5f5f5; border-radius:6px; box-shadow: 0 8px 24px rgba(0,0,0,0.25); cursor:pointer; transition: transform 160ms ease; }
+.envelope:before { /* flap */
+  content: '';
+  position:absolute; left:0; right:0; top:0; height:60%; background:linear-gradient(180deg,#e6e6e6,#d9d9d9); transform-origin:top center; clip-path: polygon(0 0, 50% 60%, 100% 0, 100% 0, 0 0); border-top-left-radius:6px; border-top-right-radius:6px;
+}
+.envelope .body { position:absolute; left:0; right:0; bottom:0; top:40%; background: linear-gradient(180deg,#fff,#f3f3f3); border-bottom-left-radius:6px; border-bottom-right-radius:6px; display:flex; align-items:center; justify-content:center }
+.envelope:hover { transform: translateY(-6px) }
+.envelope .stamp { position:absolute; right:10px; top:12px; width:40px; height:26px; background:linear-gradient(180deg,#fffbcc,#ffd57f); border-radius:4px; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.06) }
+
+/* visual state when ready to open */
+.envelope.ready { box-shadow: 0 16px 40px rgba(100,200,120,0.12); transform: translateY(-8px) scale(1.02); border: 1px solid rgba(100,200,120,0.18) }
+
+.envelope-tooltip .tooltip-text { font-weight:600 }
+
+.envelope-tooltip { position:absolute; left:calc(100% + 4px); top:0; width:220px; padding:8px; background:rgba(0,0,0,0.85); color:#fff; border-radius:8px; font-size:0.95rem; display:none; z-index:2000 }
+.envelope:hover + .envelope-tooltip, .envelope-tooltip.show { display:block }
+
+/* Tooltips removed per user request */
+.envelope-tooltip { display: none !important }
+
+@media (max-width:900px) {
+  .carousel-area { flex-direction:column; align-items:center }
+  .side-envelope { order:2 }
+  .envelope-tooltip { display: none !important }
+}
+
+/* When placed below the carousel we center the envelope; tooltip disabled */
+.side-envelope.below { width:100%; display:flex; justify-content:center; margin-top:18px; position:relative }
+.side-envelope.below .envelope { width:260px; height:160px }
+.side-envelope.below .envelope-tooltip { display: none !important }
+
