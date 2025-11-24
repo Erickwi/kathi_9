@@ -267,8 +267,8 @@ if (typeof window !== 'undefined' && typeof window.addEventListener === 'functio
             <p>Amor no me puedo creer, que seas tu, siempre me imaginaba conocer a una persona tranquila, pero intensa en sentimientos</p>
             <p>Y llegaste con tu personalidad toda bonita, algo penosa al inicio pero te lo dije yo te iba a sacar la sopa</p>
             <p>Cuando fue el primer beso, esa intensidad que cada vez que ibamos a un aula nos faltaba todavia mas</p>
-            <p>Te quiero mi amor</p>
-          </div>Feliz
+            <p>Te quiero mi amor y estoy feliz de tenerte</p>
+          </div>
         </div>
       `
       document.body.appendChild(modal)
